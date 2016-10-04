@@ -1,0 +1,115 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+  $('#selection').selectable();
+});
+
+var state = "Reading";
+var currCard = 0;
+
+function nextCard(){
+  $('.info').fadeTo(500,0);
+  $('.info').css('visibility','hidden');
+  $('.check').fadeTo(500,0);
+  $('.check').css('visibility','hidden');
+  $('.result').fadeTo(500,0);
+  $('.result').css('visibility','hidden');
+  google.script.run.withSuccessHandler(function(canGo){
+    if(canGo[0]){
+      google.script.run.withSuccessHandler(function(cardObj){
+        currCard=(cardObj[0]);
+        document.getElementById('char').innerHTML = cardObj[1];
+        document.getElementById('pinyin').innerHTML = cardObj[2];
+        document.getElementById('english').innerHTML = cardObj[3];
+        if(state==="Reading"){
+          $('.read').css('visibility','visible');
+          $('.read').fadeTo(500,1);
+          $('.write').css('opacity',0);
+          $('.write').css('visibility','hidden');
+        }
+        if(state==="Writing"){
+          $('.read').css('opacity',0);
+          $('.read').css('visibility','hidden');
+          $('.write').css('visibility','visible');
+          $('.write').fadeTo(500,1);
+        }
+        document.getElementById('availcards').innerHTML = canGo[1];
+        document.getElementById('usedcards').innerHTML = canGo[2];
+        document.getElementById('mastercards').innerHTML = canGo[3];
+        $('.check').css('visibility','visible');
+        $('.check').fadeTo(500,1);
+        $('.result').css('opacity',0);
+        $('.result').css('visibility','hidden');
+        done();
+      }).getCard(state);
+    }else{
+      document.getElementById('availcards').innerHTML = canGo[1];
+      document.getElementById('usedcards').innerHTML = canGo[2];
+      document.getElementById('mastercards').innerHTML = canGo[3];
+      $('.hideable').fadeTo(500,0);
+      $('.hideable').css('visibility', 'hidden');
+      document.getElementById('english').innerHTML = "Cards all Used. Please Reset";
+      $('#english').css('visibility','visible');
+      $('#english').fadeTo(500,1);
+      showReset();
+    }
+  }).checkNotDone(state);
+}
+
+function start(){
+  state = $('.ui-selected').text();
+  if(state == "Reading" || state == "Writing"){
+    processing();
+    $('#table_card').css('visibility','visible');
+    $('#table_card').css('opacity',1);
+    $('.area_card .head').css('visibility','visible');
+    $('.area_card .head').fadeTo(500,1);
+    nextCard();
+  } else {};
+}
+
+function showall(){
+  $('.info').css('visibility','visible');
+  $('.info').fadeTo(500,1);
+  $('.result').css('visibility','visible');
+  $('.result').fadeTo(500,1);
+  $('.check').fadeTo(500,0);
+  $('.check').css('visibility','hidden');
+}
+
+function remembered(){
+  google.script.run.markCorr(state,currCard);
+  nextCard();
+}
+
+function forgot(){
+  google.script.run.markIncorr(state,currCard);
+  nextCard();
+}
+
+function reshuffle(){
+  processing();
+  google.script.run.reset();
+  nextCard();
+}
+
+function processing(){
+  $('#button_start').fadeTo(500,0);
+  $('#button_start').css('visibility','hidden');
+  $('.reset').fadeTo(500,0);
+  $('.reset').css('visibility','hidden');
+}
+
+function done(){
+  $('#button_start').css('visibility','visible');
+  $('#button_start').fadeTo(500,1);
+  showReset();
+}
+function showReset(){
+  $('.reset').css('visibility','visible');
+  $('.reset').fadeTo(500,1);
+}
+
+</script>

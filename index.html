@@ -1,0 +1,81 @@
+<?!= include('css'); ?>
+
+<div class="area_outside">
+
+  <div class="area_title">
+    <span class="title">Chinese Flash Cards</span>
+  </div>
+
+  <div class="area_insideTitle">
+
+    <table class="area_initial">
+      <tr>
+        <td class="head initial_col1">Choose:</td>
+        <td class="initial_col2">
+          <ol id="selection">
+            <li class="select">Reading</li>
+            <br>
+            <li class="select">Writing</li>
+          </ol>
+        </td>
+        <td class="initial_col3">
+          <a href="#" class="button" id="button_start" onclick="start()">START</a>
+        </td>
+        <td class="intial_col4">
+          <p class="av_text reset">Mastered Cards: <br>&nbsp&nbsp<span id="mastercards"></span></p>
+          <p class="av_text reset">Used Cards: <br>&nbsp&nbsp<span id="usedcards"></span></p>
+          <p class="av_text reset">Available Cards: <br>&nbsp&nbsp<span id="availcards"></span></p>
+        </td>
+        <td class="initial_col5" id="area_reset">
+          <a href="#" class="button reset" id="button_reset" onclick="reshuffle()">Reset</a>
+        </td>
+    </table>
+
+    <div class="area_main">
+
+      <div class="area_card">
+        <table class="card" id="table_card">
+          <thead>
+            <tr>
+              <th class="card card_col1 head hideable">Character</th>
+              <th class="card card_col2 head hideable">PinYin</th>
+              <th class="card card_col3 head hideable">English</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="card card_col1 info read hideable" id="char"></td>
+              <td class="card card_col2 info write hideable" id="pinyin"></td>
+              <td class="card card_col3 info write hideable" id="english"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="area_buttons">
+        <table>
+          <tr>
+            <td class="head check hideable" id="text_check">Check?</td>
+            <td class="filler"></td>
+            <td class="head result hideable" id="text_result">You...?</td>
+          </tr>
+          <tr>
+            <td class="check hideable" id="area_check">
+              <a href="#" class="button" id="button_check" onclick="showall()">Yes, Show All</a>
+            </td>
+            <td class="filler"></td>
+            <td class="result hideable" id="area_result">
+              <a href="#" class="button" id="button_rem" onclick="remembered()">Remembered</a>
+              <div style="height: 30px")></div>
+              <a href="#" class="button" id="button_for" onclick="forgot()">Forgot</a>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<?!= include('javascript'); ?>
