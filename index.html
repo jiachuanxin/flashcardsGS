@@ -13,21 +13,22 @@
         <td class="head initial_col1">Choose:</td>
         <td class="initial_col2">
           <ol id="selection">
-            <li class="select">Reading</li>
+            <li class="select Reading_button" title="see if you remember how to pronouce and define chinese characters and phrases" onclick="start()">Reading</li>
             <br>
-            <li class="select">Writing</li>
+            <li class="select Writing_button" title="see if you remember what characters should look like given definitions and pronunciations"onclick="start()">Writing</li>
           </ol>
         </td>
         <td class="initial_col3">
-          <a href="#" class="button" id="button_start" onclick="start()">START</a>
+          <!-- <a href="#" class="button" id="button_start" onclick="start()">START</a> -->
         </td>
-        <td class="intial_col4">
-          <p class="av_text reset">Mastered Cards: <br>&nbsp&nbsp<span id="mastercards"></span></p>
-          <p class="av_text reset">Used Cards: <br>&nbsp&nbsp<span id="usedcards"></span></p>
-          <p class="av_text reset">Available Cards: <br>&nbsp&nbsp<span id="availcards"></span></p>
+        <td class="initial_col4 reset">
+          <p class="av_text reset" title="cards gotten correct 3 times are not returned on reset">Mastered Cards: <br>&nbsp&nbsp<span id="mastercards"></span></p>
+          <p class="av_text reset" title="cards already viewed this cycle">Used Cards: <br>&nbsp&nbsp<span id="usedcards"></span></p>
+          <p class="av_text reset" title="cards not yet viewed this cycle">Available Cards: <br>&nbsp&nbsp<span id="availcards"></span></p>
         </td>
-        <td class="initial_col5" id="area_reset">
-          <a href="#" class="button reset" id="button_reset" onclick="reshuffle()">Reset</a>
+        <td class="initial_col5 reset" id="area_reset">
+          <p class="av_text reset">Reshuffle all cards?</p><br>
+          <a href="#" class="button reset" id="button_reset" onclick="reshuffle()" title="shuffle used cards back with available cards">Reset</a>
         </td>
     </table>
 
@@ -55,7 +56,7 @@
       <div class="area_buttons">
         <table>
           <tr>
-            <td class="head check hideable" id="text_check">Check?</td>
+            <td class="head check hideable" id="text_check" title="think you got it?">Check all?</td>
             <td class="filler"></td>
             <td class="head result hideable" id="text_result">You...?</td>
           </tr>
