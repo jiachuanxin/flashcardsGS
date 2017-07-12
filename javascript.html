@@ -4,10 +4,25 @@
 
 $(document).ready(function(){
   $('#selection').selectable();
+  document.addEventListener('keydown',function(event){
+    if(acceptKeys == 1 && event.keyCode == 32) {
+      showall();
+    }
+    if(acceptKeys == 2 && event.keyCode == 38) {
+      remembered();
+    }
+    if(acceptKeys == 2 && event.keyCode == 40) {
+      forgot();
+    }
+  });
 });
+
+
 
 var state = "Reading";
 var currCard = 0;
+var acceptKeys = 0;
+// acceptKeys tracks document state, 0 is nowhere, 1 is in check, 2 is in result
 
 function nextCard(){
   hide('.info');
@@ -34,6 +49,7 @@ function nextCard(){
         show('.check');
         hide('.result');
         done();
+        acceptKeys = 1;
       }).getCard(state);
     }else{
       document.getElementById('availcards').innerHTML = canGo[1];
@@ -43,11 +59,13 @@ function nextCard(){
       document.getElementById('english').innerHTML = "Cards all Used. Please Reset";
       show('#english');
       showReset();
+      acceptKeys = 0;
     }
   }).checkNotDone(state);
 }
 
 function start(){
+  acceptKeys = 0;
   state = $('.ui-selected').text();
   if(state == "Reading" || state == "Writing"){
     processing();
@@ -61,23 +79,30 @@ function showall(){
   show('.info');
   show('.result');
   hide('.check');
+  acceptKeys = 2;
 }
 
 function remembered(){
+  acceptKeys = 0;
   google.script.run.markCorr(state,currCard);
   nextCard();
 }
 
 function forgot(){
+  acceptKeys = 0;
   google.script.run.markIncorr(state,currCard);
   nextCard();
 }
 
 function reshuffle(){
+  acceptKeys = 0;
   processing();
   google.script.run.reset();
   nextCard();
 }
+
+
+// utility functions
 
 function processing(){
   hide('.'+oppositeState()+'_button');
@@ -89,9 +114,7 @@ function done(){
   show('.reset');
 }
 
-
-//utility functions
-
+// global animations
 function hide(string){
   $(string).fadeTo(500,0);
   $(string).css('visibility','hidden');
@@ -101,6 +124,7 @@ function show(string){
   $(string).fadeTo(500,1);
 }
 
+// reference for the name of the other state
 function oppositeState(){
   switch(state){
     case 'Reading':
